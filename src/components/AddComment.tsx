@@ -13,7 +13,7 @@ const AddComment = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await axios.post("/api", {
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api`, {
       nombre: nombre,
       fecha: fecha,
       comentario: comentario,

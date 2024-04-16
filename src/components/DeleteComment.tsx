@@ -16,7 +16,9 @@ const DeleteComment = ({ comment }: { comment: Comment }) => {
   const router = useRouter();
 
   const handleDelete = async (commentId: number) => {
-    await axios.delete(`/api/${commentId}`);
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/${commentId}`
+    );
     router.refresh();
     setIsOpen(false);
   };

@@ -20,11 +20,14 @@ const UpdateComment = ({ comment }: { comment: Comment }) => {
 
   const handleUpdate = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await axios.patch(`/api/${comment.id}`, {
-      nombre: nombre,
-      fecha: fecha,
-      comentario: comentario,
-    });
+    await axios.patch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/${comment.id}`,
+      {
+        nombre: nombre,
+        fecha: fecha,
+        comentario: comentario,
+      }
+    );
     router.refresh();
     setIsOpen(false);
   };
