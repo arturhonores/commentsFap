@@ -10,7 +10,14 @@ type Comment = {
   comentario: string;
 };
 
-const DeleteComment = ({ comment }: { comment: Comment }) => {
+interface DeleteCommentProps {
+  fetchComments: () => void; // Tipo de la función fetchComments
+}
+
+const DeleteComment: React.FC<{ comment: Comment } & DeleteCommentProps> = ({
+  comment,
+  fetchComments,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -19,8 +26,8 @@ const DeleteComment = ({ comment }: { comment: Comment }) => {
     await axios.delete(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/${commentId}`
     );
-    router.refresh();
     setIsOpen(false);
+    fetchComments();
   };
 
   const handleModal = () => {

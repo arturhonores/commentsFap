@@ -3,7 +3,11 @@ import { useState, SyntheticEvent } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const AddComment = () => {
+interface AddCommentProps {
+  fetchComments: () => void; // Tipo de la función fetchComments
+}
+
+const AddComment: React.FC<AddCommentProps> = ({ fetchComments }) => {
   const [nombre, setNombre] = useState("");
   const [fecha, setFecha] = useState("");
   const [comentario, setComentario] = useState("");
@@ -23,6 +27,8 @@ const AddComment = () => {
     setComentario("");
     router.refresh();
     setIsOpen(false);
+    // Llama a la función fetchComments para actualizar los comentarios
+    fetchComments();
   };
 
   const handleModal = () => {

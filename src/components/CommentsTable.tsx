@@ -1,27 +1,42 @@
-import { PrismaClient } from "@prisma/client";
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import AddComment from "./AddComment";
 import DeleteComment from "./DeleteComment";
 import UpdateComment from "./UpdateComment";
 
-const prisma = new PrismaClient();
+// Definición de CommentsResponse
+type CommentsResponse = {
+  id: number;
+  nombre: string;
+  fecha: string;
+  comentario: string;
+}[];
 
-const getComments = async () => {
-  const res = await prisma.comment.findMany({
-    select: {
-      id: true,
-      nombre: true,
-      fecha: true,
-      comentario: true,
-    },
-  });
-  return res;
-};
+const CommentsTable = () => {
+  const [comments, setComments] = useState<CommentsResponse>([]);
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api`
+      ); // Realiza la solicitud GET usando Axios
+      if (response.status === 200) {
+        setComments(response.data); // Establece los comentarios en el estado
+      } else {
+        console.error("Error fetching comments:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
-const CommentsTable = async () => {
-  const comments = await getComments();
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
   return (
     <>
-      <AddComment></AddComment>
+      <AddComment fetchComments={fetchComments} />
       <div className="overflow-x-auto py-4">
         <table className="table">
           {/* head */}
@@ -41,8 +56,14 @@ const CommentsTable = async () => {
                 <td>{comment.fecha} </td>
                 <td>{comment.comentario} </td>
                 <td className="flex justify-center space-x-1">
-                  <UpdateComment comment={comment} />
-                  <DeleteComment comment={comment} />
+                  <UpdateComment
+                    comment={comment}
+                    fetchComments={fetchComments}
+                  />
+                  <DeleteComment
+                    comment={comment}
+                    fetchComments={fetchComments}
+                  />
                 </td>
               </tr>
             ))}

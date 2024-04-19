@@ -10,7 +10,14 @@ type Comment = {
   comentario: string;
 };
 
-const UpdateComment = ({ comment }: { comment: Comment }) => {
+interface UpdateCommentProps {
+  fetchComments: () => void; // Tipo de la función fetchComments
+}
+
+const UpdateComment: React.FC<{ comment: Comment } & UpdateCommentProps> = ({
+  comment,
+  fetchComments,
+}) => {
   const [nombre, setNombre] = useState(comment.nombre);
   const [fecha, setFecha] = useState(comment.fecha);
   const [comentario, setComentario] = useState(comment.comentario);
@@ -30,6 +37,7 @@ const UpdateComment = ({ comment }: { comment: Comment }) => {
     );
     router.refresh();
     setIsOpen(false);
+    fetchComments();
   };
 
   const handleModal = () => {
