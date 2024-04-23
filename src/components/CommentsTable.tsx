@@ -42,10 +42,10 @@ const CommentsTable = () => {
           {/* head */}
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Fecha</th>
-              <th>Reseña</th>
+              <th className="text-center uppercase">ID</th>
+              <th className="text-center uppercase">Nombre</th>
+              <th className="text-center uppercase">Fecha</th>
+              <th className="text-center uppercase">Reseña</th>
             </tr>
           </thead>
           <tbody>

@@ -69,13 +69,12 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments }) => {
             </div>
             <div className="form-control w-full">
               <label className="label font-bold">Reseña</label>
-              <input
-                type="text"
+              <textarea
                 value={comentario}
                 onChange={(e) => setComentario(e.target.value)}
-                className="input input-bordered"
-                placeholder="Reseña"
-              />
+                className="input input-bordered min-h-28 max-h-36"
+                placeholder="Escribe una reseña de preferencia un mínimo de 50 palabras"
+              ></textarea>
             </div>
             <div className="modal-action">
               <button
