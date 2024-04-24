@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import type { Comment, Course } from "@prisma/client";
 import prisma from "../../../lib/prisma";
 
 export const POST = async (request: Request) => {
@@ -43,8 +42,11 @@ type CommentsResponse = {
   nombre: string;
   fecha: string;
   comentario: string;
-  course: Course;
   courseId: number;
+  course: {
+    id: number;
+    name: string;
+  };
 }[];
 
 export const GET = async () => {

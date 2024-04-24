@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import type { Comment, Course } from "@prisma/client";
 import prisma from "../../../lib/prisma";
 
 type CoursesResponse = {
