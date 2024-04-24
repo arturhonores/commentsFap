@@ -1,13 +1,9 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 type Comment = {
   id: number;
-  nombre: string;
-  fecha: string;
-  comentario: string;
 };
 
 interface DeleteCommentProps {
@@ -20,11 +16,9 @@ const DeleteComment: React.FC<{ comment: Comment } & DeleteCommentProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const router = useRouter();
-
   const handleDelete = async (commentId: number) => {
     await axios.delete(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/${commentId}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/comments/${commentId}`
     );
     setIsOpen(false);
     fetchComments();

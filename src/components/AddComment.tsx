@@ -1,7 +1,6 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
 import axios from "axios";
-// import { useRouter } from "next/navigation";
 
 interface AddCommentProps {
   fetchComments: () => void; // Tipo de la función fetchComments
@@ -14,8 +13,6 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments, courses }) => {
   const [comentario, setComentario] = useState("");
   const [courseId, setCourseId] = useState<number | null>(null); // Estado para mantener el ID del curso seleccionado
   const [isOpen, setIsOpen] = useState(false);
-
-  // const router = useRouter();
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -32,7 +29,6 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments, courses }) => {
     setNombre("");
     setFecha("");
     setComentario("");
-    // router.refresh();
     setCourseId(null);
     setIsOpen(false);
     // Llama a la función fetchComments para actualizar los comentarios

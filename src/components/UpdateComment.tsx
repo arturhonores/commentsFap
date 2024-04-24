@@ -8,36 +8,54 @@ type Comment = {
   nombre: string;
   fecha: string;
   comentario: string;
+  courseId: number;
 };
 
 interface UpdateCommentProps {
   fetchComments: () => void; // Tipo de la función fetchComments
+  courses: { id: number; name: string }[]; // Lista de cursos para mostrar en el selector
 }
 
 const UpdateComment: React.FC<{ comment: Comment } & UpdateCommentProps> = ({
   comment,
   fetchComments,
+  courses,
 }) => {
   const [nombre, setNombre] = useState(comment.nombre);
   const [fecha, setFecha] = useState(comment.fecha);
   const [comentario, setComentario] = useState(comment.comentario);
+  const [courseId, setCourseId] = useState(comment.courseId); // Estado para mantener el ID del curso
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
 
   const handleUpdate = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await axios.patch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/${comment.id}`,
-      {
-        nombre: nombre,
-        fecha: fecha,
-        comentario: comentario,
-      }
-    );
-    router.refresh();
-    setIsOpen(false);
-    fetchComments();
+
+    // Validar datos antes de enviar la solicitud de actualización
+    if (!nombre || !fecha || !comentario || !courseId) {
+      alert("Todos los campos son obligatorios");
+      return;
+    }
+
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/comments/${comment.id}`,
+        {
+          nombre,
+          fecha,
+          comentario,
+          courseId,
+        }
+      );
+
+      router.refresh();
+      setIsOpen(false);
+      fetchComments();
+    } catch (error) {
+      console.error("Error actualizando comentario:", error);
+      alert("Error actualizando comentario. Intenta de nuevo.");
+    }
   };
 
   const handleModal = () => {
@@ -56,6 +74,29 @@ const UpdateComment: React.FC<{ comment: Comment } & UpdateCommentProps> = ({
         <div className="modal-box">
           <h3 className="font-bold text-lg text-center">Actualizar Reseña</h3>
           <form onSubmit={handleUpdate}>
+            <div className="form-control w-full">
+              <label className="label font-bold">Curso</label>
+              <select
+                value={courseId || ""}
+                onChange={(e) => setCourseId(Number(e.target.value))}
+                className="select select-bordered"
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecciona un curso
+                </option>
+                {courses.map((course) => (
+                  <option
+                    key={course.id}
+                    value={course.id}
+                  >
+                    {course.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="form-control w-full">
               <label className="label font-bold">Nombre</label>
               <input

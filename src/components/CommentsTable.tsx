@@ -96,6 +96,7 @@ const CommentsTable = () => {
                   <UpdateComment
                     comment={comment}
                     fetchComments={fetchComments}
+                    courses={courses}
                   />
                   <DeleteComment
                     comment={comment}
