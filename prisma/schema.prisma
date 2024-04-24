@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Course {
+id Int @id @default(autoincrement())
+name String
+comments Comment[] 
+}
+
 model Comment {
 id Int @id @default(autoincrement())
 nombre String
@@ -20,4 +26,6 @@ fecha String
 comentario String @db.Text
 createAd DateTime @default(now())
 updateAd DateTime @updatedAt
+course Course @relation(fields: [courseId],references: [id])
+courseId Int @default(1)
 }

@@ -1,31 +1,39 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 interface AddCommentProps {
   fetchComments: () => void; // Tipo de la función fetchComments
+  courses: { id: number; name: string }[]; // Lista de cursos para mostrar en el selector
 }
 
-const AddComment: React.FC<AddCommentProps> = ({ fetchComments }) => {
+const AddComment: React.FC<AddCommentProps> = ({ fetchComments, courses }) => {
   const [nombre, setNombre] = useState("");
   const [fecha, setFecha] = useState("");
   const [comentario, setComentario] = useState("");
+  const [courseId, setCourseId] = useState<number | null>(null); // Estado para mantener el ID del curso seleccionado
   const [isOpen, setIsOpen] = useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api`, {
+    if (!courseId) {
+      alert("Por favor, seleccione un curso."); // Valida que se haya seleccionado un curso
+      return;
+    }
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/comments`, {
       nombre: nombre,
       fecha: fecha,
       comentario: comentario,
+      courseId: courseId,
     });
     setNombre("");
     setFecha("");
     setComentario("");
-    router.refresh();
+    // router.refresh();
+    setCourseId(null);
     setIsOpen(false);
     // Llama a la función fetchComments para actualizar los comentarios
     fetchComments();
@@ -47,6 +55,29 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments }) => {
         <div className="modal-box">
           <h3 className="font-bold text-lg">Agregar nueva reseña</h3>
           <form onSubmit={handleSubmit}>
+            <div className="form-control w-full">
+              <label className="label font-bold">Curso</label>
+              <select
+                value={courseId || ""}
+                onChange={(e) => setCourseId(Number(e.target.value))}
+                className="select select-bordered"
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Seleccione un curso
+                </option>
+                {courses.map((course) => (
+                  <option
+                    key={course.id}
+                    value={course.id}
+                  >
+                    {course.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="form-control w-full">
               <label className="label font-bold">Nombre</label>
               <input
