@@ -63,11 +63,13 @@ const CommentsTable = () => {
 
   return (
     <>
-      <AddComment
-        fetchComments={fetchComments}
-        courses={courses}
-      />
-      <div className="overflow-x-auto py-4">
+      <div className="bg-white w-full text-center sticky top-0 z-20">
+        <AddComment
+          fetchComments={fetchComments}
+          courses={courses}
+        />
+      </div>
+      <div className="overflow-x-auto pb-4 pt-8">
         <table className="table w-full">
           {/* head */}
           <thead>

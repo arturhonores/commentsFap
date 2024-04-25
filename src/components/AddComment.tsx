@@ -42,7 +42,7 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments, courses }) => {
   return (
     <div>
       <button
-        className="btn btn-info text-white"
+        className="btn btn-info text-white my-2"
         onClick={handleModal}
       >
         Agregar reseña
