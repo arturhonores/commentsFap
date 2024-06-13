@@ -1,3 +1,4 @@
+//revisar api de cursos no se actualiza automáticamente en producción
 import { NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
 
