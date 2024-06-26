@@ -31,7 +31,7 @@ const AddComment: React.FC<AddCommentProps> = ({ fetchComments, courses }) => {
     setComentario("");
     setCourseId(null);
     setIsOpen(false);
-    // Llama a la función fetchComments para actualizar los comentarios
+    // Llama a la función fetchComments   para actualizar los comentarios
     fetchComments();
   };
 
